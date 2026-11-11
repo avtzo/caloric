@@ -41,3 +41,32 @@ export async function fetchMacros(calories) {
         console.error(`Error fetching macros: ${error.message}`);
     }
 }
+
+export async function fetchMeals(macros) {
+    const API_KEY = "742906af2ad98ed82878e238fa0b7e0b";
+    const APP_ID = "59478a40";
+
+    const { calories, protein, fat, carbs } = macros;
+
+    try {
+        const response = await fetch(`https://api.edamam.com/api/meal-planner/v1/${APP_ID}/select?type=edamam-generic`);
+
+        if (!response.ok) {
+            const errorData = await response.text();
+
+            console.error("Edamam API Error:", {
+                status: response.status,
+                message: errorData
+            });
+
+            throw new Error(`API Error ${response.status}: ${errorData}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+
+    } catch(error) {
+        console.error("Error: " + error.message);
+    }
+}
