@@ -1,5 +1,5 @@
 import { displayUserDetailsContainer } from "./ui.js";
-import { fetchTargetCalories, fetchMacros } from "./api.js";
+import { fetchTargetCalories, fetchMacros, fetchMeals } from "./api.js";
 
 // Global Variables
 
@@ -154,6 +154,8 @@ document.addEventListener("click", async (e) => {
         };
 
         console.log(USER_MACROS);
+
+        fetchMeals(USER_MACROS);
     }
 
     // GO BACK BUTTON
@@ -162,5 +164,6 @@ document.addEventListener("click", async (e) => {
         nextDetail = previousDetail;
         displayUserDetailsContainer(previousDetail);
     }
+
 });
 
