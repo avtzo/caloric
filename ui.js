@@ -7,15 +7,17 @@ export function displayUserDetailsContainer(questionType) {
         userDetailsEl.innerHTML = 
         `
             <h1>Select your Gender</h1>
-            <button type="button" class="gender-btn" data-gender="male">Male</button>
-            <button type="button" class="gender-btn" data-gender="female">Female</button>
+            <div id="gender-btns-wrap">
+                <button type="button" class="gender-btn" data-gender="male">Male</button>
+                <button type="button" class="gender-btn" data-gender="female">Female</button>
+            </div>
             <button type="button" class="confirm-detail-btn confirm-gender-btn">Confirm</button>
         `;
     } else if (questionType === "age") {
         userDetailsEl.innerHTML = 
         `
             <h1>Enter your age</h1>
-            <input type="number" class="age-input">
+            <input type="number" class="age-input" min="0" max="120">
             <button type="button" class="confirm-detail-btn confirm-age-btn">Confirm</button>
             <button type="button" class="go-back-btn">Go Back</button>
             `;
@@ -23,7 +25,7 @@ export function displayUserDetailsContainer(questionType) {
         userDetailsEl.innerHTML = 
         `
             <h1>Enter your weight</h1>
-            <input type="number" class="weight-input">
+            <input type="number" class="weight-input" min="20" max="400">
             <button type="button" class="confirm-detail-btn confirm-weight-btn">Confirm</button>
             <button type="button" class="go-back-btn">Go Back</button>
         `;
@@ -31,7 +33,7 @@ export function displayUserDetailsContainer(questionType) {
         userDetailsEl.innerHTML = 
         `
             <h1>Enter your height</h1>
-            <input type="number" class="height-input">
+            <input type="number" class="height-input" min="50" max="300">
             <button type="button" class="confirm-detail-btn confirm-height-btn">Confirm</button>
             <button type="button" class="go-back-btn">Go Back</button>
         `;
@@ -54,11 +56,13 @@ export function displayUserDetailsContainer(questionType) {
         userDetailsEl.innerHTML = 
         `
             <h1>Target Goal</h1>
-            <button type="button" class="goal-btn" data-goal="lose">Weight Loss</button>
-            <button type="button" class="goal-btn" data-goal="mild_lose">Mild Weight Loss</button>
-            <button type="button" class="goal-btn" data-goal="maintain">Maintain Weight</button>
-            <button type="button" class="goal-btn" data-goal="mild_gain">Mild Weight Gain</button>
-            <button type="button" class="goal-btn" data-goal="gain">Weight Gain</button>
+            <div id="goal-btns-wrap">
+                <button type="button" class="goal-btn" data-goal="lose">Weight Loss</button>
+                <button type="button" class="goal-btn" data-goal="mild_lose">Mild Weight Loss</button>
+                <button type="button" class="goal-btn" data-goal="maintain">Maintain Weight</button>
+                <button type="button" class="goal-btn" data-goal="mild_gain">Mild Weight Gain</button>
+                <button type="button" class="goal-btn" data-goal="gain">Weight Gain</button>
+            </div>
             <button type="button" class="confirm-detail-btn confirm-goal-btn">Confirm</button>
             <button type="button" class="go-back-btn">Go Back</button>
         `;
@@ -66,7 +70,7 @@ export function displayUserDetailsContainer(questionType) {
         userDetailsEl.innerHTML = 
         `
             <h1>Anything to exclude?</h1>
-            <div class="exclude-btns>
+            <div id="exclude-btns-wrap">
                 <button type="button" class="exclude-btn" data-exclude="dairy">Dairy</button>
                 <button type="button" class="exclude-btn" data-exclude="egg">Eggs</button>
                 <button type="button" class="exclude-btn" data-exclude="gluten">Gluten</button>
