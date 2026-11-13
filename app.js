@@ -1,5 +1,12 @@
-import { displayUserDetailsContainer } from "./ui.js";
-import { fetchTargetCalories, fetchMacros, fetchMeals } from "./api.js";
+import { displayUserDetailsContainer, displayDailyMeal } from "./ui.js";
+import { fetchTargetCalories, fetchMeals } from "./api.js";
+
+// DOM Elements
+
+const userDetailsScreen = document.querySelector(".user-details");
+const resultsScreen = document.querySelector(".result-screen");
+const recipesContainer = document.querySelector(".recipes-container");
+
 
 // Global Variables
 
@@ -9,12 +16,11 @@ let userCurrentWeight = "";
 let userHeight = "";
 let userActivityLevel = "";
 let userGoal = "";
+let userExclude = [];
 
 let USER_MACROS = {
     target_calories: "",
-    protein: "",
-    carbs: "",
-    fat: ""
+    excluded: []
 };
 
 let nextDetail = "gender"; // For user questions
@@ -131,39 +137,57 @@ document.addEventListener("click", async (e) => {
             return;
         }
 
+        previousDetail = nextDetail;
+        nextDetail = "exclude";
+        displayUserDetailsContainer(nextDetail);
+
+    }
+
+    // EXCLUDE
+    const confirmExcludeBtn = e.target.closest(".confirm-exclude-btn");
+    const excludeBtn = e.target.closest(".exclude-btn");
+
+    if (excludeBtn) {
+        if (userExclude.includes(excludeBtn.dataset.exclude)) {
+            userExclude.splice(userExclude.indexOf(excludeBtn.dataset.exclude), 1);
+        } else {
+            userExclude.push(excludeBtn.dataset.exclude);
+        }
+        console.log(userExclude);
+    }
+
+    if (confirmExcludeBtn) {
+
         const userObject = createObjectData(userGender, userAge, userCurrentWeight, userHeight, userActivityLevel, userGoal);
         const userTargetCalories = await fetchTargetCalories(userObject);
-
+    
         if (!userTargetCalories) {
             alert("Could not calculate target calories. Try Again.");
             return;
         }
-
-        const userMacros = await fetchMacros(userTargetCalories.target_kcal);
-
-        if (!userMacros) {
-            alert("Could not calculate macros. Try Again.");
-            return;
-        }
-
+    
         USER_MACROS = {
             target_calories: userTargetCalories.target_kcal,
-            protein: userMacros.protein_g,
-            carbs: userMacros.carbs_g,
-            fat: userMacros.fat_g
+            excluded: [...userExclude]
         };
+        
+        const responseData = await fetchMeals(USER_MACROS);
+        const weekDays = responseData.week;
 
-        console.log(USER_MACROS);
+        userDetailsScreen.classList.add("hidden");
+        resultsScreen.classList.remove("hidden");
 
-        fetchMeals(USER_MACROS);
-    }
+        for (let day in weekDays) {
+            displayDailyMeal(day, weekDays[day]);
+        }
 
+    };
     // GO BACK BUTTON
     const goBackBtn = e.target.closest(".go-back-btn");
     if (goBackBtn) {
         nextDetail = previousDetail;
         displayUserDetailsContainer(previousDetail);
-    }
+    };
 
 });
 
