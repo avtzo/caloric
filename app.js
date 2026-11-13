@@ -43,13 +43,19 @@ function createObjectData(gender, age, weight, height, activity, goal) {
 document.addEventListener("click", async (e) => {
     // GENDER
     const confirmGenderBtn = e.target.closest(".confirm-gender-btn");
-    const genderBtns = e.target.closest(".gender-btn");
+    const genderBtn = e.target.closest(".gender-btn");
+    
+    if (genderBtn) {
+        userGender = genderBtn.dataset.gender;
+        
+        const allGenderBtns = document.querySelectorAll(".gender-btn");
+        allGenderBtns.forEach(btn => btn.classList.remove("active"));
 
-    if (genderBtns) {
-        userGender = genderBtns.dataset.gender;
+        genderBtn.classList.add("active");
     }
+
     if (confirmGenderBtn) { 
-        if (userGender === "") {
+        if (!userGender) {
             alert("Please select your gender");
             return;
         }
@@ -125,14 +131,19 @@ document.addEventListener("click", async (e) => {
 
     // GOAL
     const confirmGoalBtn = e.target.closest(".confirm-goal-btn");
-    const goalSelectBtns = e.target.closest(".goal-btn");
+    const goalSelectBtn = e.target.closest(".goal-btn");
     
-    if (goalSelectBtns) {
-        userGoal = goalSelectBtns.dataset.goal;
+    if (goalSelectBtn) {
+        userGoal = goalSelectBtn.dataset.goal;
+
+        const allGoalSelectBtns = document.querySelectorAll(".goal-btn");
+        allGoalSelectBtns.forEach(btn => btn.classList.remove("active"));
+
+        goalSelectBtn.classList.add("active");
     }
 
     if (confirmGoalBtn) {
-        if (userGoal === "") {
+        if (!userGoal) {
             alert("Please select your goal");
             return;
         }
@@ -148,12 +159,13 @@ document.addEventListener("click", async (e) => {
     const excludeBtn = e.target.closest(".exclude-btn");
 
     if (excludeBtn) {
+        excludeBtn.classList.toggle("active");
+
         if (userExclude.includes(excludeBtn.dataset.exclude)) {
             userExclude.splice(userExclude.indexOf(excludeBtn.dataset.exclude), 1);
         } else {
             userExclude.push(excludeBtn.dataset.exclude);
         }
-        console.log(userExclude);
     }
 
     if (confirmExcludeBtn) {
@@ -182,6 +194,7 @@ document.addEventListener("click", async (e) => {
         }
 
     };
+    
     // GO BACK BUTTON
     const goBackBtn = e.target.closest(".go-back-btn");
     if (goBackBtn) {
